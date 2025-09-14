@@ -1,0 +1,9 @@
+Infrastructure Setup Log
+========================
+Date: Fri Sep 12 12:46:21 JST 2025
+Stack Name: k8s-demo-vpc-stack
+Region: ap-northeast-1
+VPC ID: vpc-00abb5d2a4d4eef7f
+Public Subnets: subnet-02dcd3e4d682df2a3,subnet-095b81f92efb80f59
+Private Subnets: subnet-054609de94c86248d,subnet-08bf518ce38d9a33f
+Status: Complete

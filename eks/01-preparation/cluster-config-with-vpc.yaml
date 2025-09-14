@@ -1,0 +1,58 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: k8s-demo-cluster
+  region: ap-northeast-1
+  version: "1.30"
+
+iam:
+  withOIDC: true
+
+# 既存のVPCを使用
+vpc:
+  id: "${VPC_ID}" # setup-infrastructure.shで作成されたVPC IDに置き換えられる
+  subnets:
+    private:
+      ap-northeast-1a:
+        id: "${PRIVATE_SUBNET_1}" # 既存のプライベートサブネット1
+      ap-northeast-1c:
+        id: "${PRIVATE_SUBNET_2}" # 既存のプライベートサブネット2
+    public:
+      ap-northeast-1a:
+        id: "${PUBLIC_SUBNET_1}" # 既存のパブリックサブネット1
+      ap-northeast-1c:
+        id: "${PUBLIC_SUBNET_2}" # 既存のパブリックサブネット2
+
+managedNodeGroups:
+  - name: demo-nodes
+    instanceType: t3.small
+    desiredCapacity: 2
+    minSize: 1
+    maxSize: 3
+    volumeSize: 20
+    volumeType: gp3
+    privateNetworking: true # プライベートサブネットに配置
+    ssh:
+      allow: false # デモではSSH不要
+    labels:
+      environment: demo
+      nodegroup-type: managed
+    tags:
+      Environment: demo
+      Project: kubernetes-tutorial
+      CostCenter: education
+    iam:
+      withAddonPolicies:
+        imageBuilder: true
+        autoScaler: false
+        externalDNS: false
+        certManager: false
+        appMesh: false
+        appMeshPreview: false
+        ebs: true
+        fsx: false
+        efs: false
+        awsLoadBalancerController: false
+        xRay: false
+        cloudWatch: true

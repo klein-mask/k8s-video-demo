@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: eks-demo-service
+  labels:
+    app: eks-demo
+spec:
+  type: ClusterIP  # ALB経由でアクセスするためClusterIPに変更
+  selector:
+    app: eks-demo
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+    name: http
